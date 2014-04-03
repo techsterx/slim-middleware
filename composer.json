@@ -9,5 +9,5 @@
   ],
   "require": {
     "techsterx/active-slim-api": "@dev"
-  },
+  }
 }

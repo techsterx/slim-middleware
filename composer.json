@@ -8,6 +8,6 @@
     }
   ],
   "require": {
-    "techsterx/active-slim-api": "dev-master"
-  }
+    "techsterx/active-slim-api": "@dev"
+  },
 }

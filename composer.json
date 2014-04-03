@@ -8,6 +8,6 @@
     }
   ],
   "requires": {
-    "techsterx/active-slim-api"
+    "techsterx/active-slim-api": "master"
   }
 }

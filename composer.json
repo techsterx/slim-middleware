@@ -1,0 +1,13 @@
+{
+  "name": "techsterx/slim-middleware",
+  "type": "library",
+  "authors": [
+    {
+      "name": "William Rex",
+      "email": "rexw3035@gmail.com"
+    }
+  ],
+  "require": {
+    "techsterx/active-slim-api": "master"
+  }
+}

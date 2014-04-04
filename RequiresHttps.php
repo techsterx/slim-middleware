@@ -1,6 +1,6 @@
 <?php
 
-namespace TechsterX\Middleware;
+namespace techsterx\Middleware;
 
 class RequiresHttps extends \Slim\Middleware
 {

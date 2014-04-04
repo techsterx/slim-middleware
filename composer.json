@@ -9,5 +9,10 @@
   ],
   "require": {
     "techsterx/active-slim-api": "@dev"
-  }
+  },
+	"autoload": {
+		"psr-0": {
+			"techsterx": "."
+		}
+	}
 }

@@ -6,7 +6,7 @@ class RequiresHttps extends \Slim\Middleware
 {
 	protected $methods;
 
-	public function __constrcut(array $methods = array())
+	public function __construct(array $methods = array())
 	{
 		$this->methods = $methods;
 	}

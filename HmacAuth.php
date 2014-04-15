@@ -7,10 +7,10 @@ class HmacAuth extends \Slim\Middleware
 	protected $hashes;
 	protected $allowedRoutes;
 
-	public function __construct(array $allowedRoutes = array())
+	public function __construct(array $hashes, array $allowedRoutes = array())
 	{
 		$this->allowedRoutes = $allowedRoutes;
-		$this->hashes = $this->app->config('api.auth');
+		$this->hashes = $hashes;
 	}
 
 	public function call()

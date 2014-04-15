@@ -17,7 +17,7 @@ class HmacAuth extends \Slim\Middleware
 	{
 		$req = $this->app->request();
 
-		if (!count($this->allowedRoutes) || !$this->checkRoute($res->getMethod().$res->getResourceUri())) {
+		if (!count($this->allowedRoutes) || !$this->checkRoute($req->getMethod().$req->getResourceUri())) {
 			$publicHash = $req->headers('X-Public');
 			$contentHash = $req->headers('X-Hash');
 

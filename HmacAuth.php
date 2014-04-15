@@ -36,7 +36,7 @@ class HmacAuth extends \Slim\Middleware
 
 			$content = $publicHash . $req->getMethod() . $req->getResourceUri() . $req->getBody();
 
-			$hash = hash_hmac('sha256', $content, $this->hashes[$publicHash]);
+			$hash = base64_encode(hash_hmac('sha256', $content, $this->hashes[$publicHash], true));
 
 			// If our hash doesn't match the submitted hash, the request is bad
 			if ($hash !== $contentHash) {

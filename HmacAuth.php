@@ -17,7 +17,7 @@ class HmacAuth extends \Slim\Middleware
 	{
 		$req = $this->app->request();
 
-		if (!count($this->allowedRoutes) || !in_array($req->getMethod().$res->getResourceUri(), $this->allowedRoutes)) {
+		if (!count($this->allowedRoutes) || !$this->checkRoute($res->getMethod().$res->getResourceUri())) {
 			$publicHash = $req->headers('X-Public');
 			$contentHash = $req->headers('X-Hash');
 
@@ -38,7 +38,7 @@ class HmacAuth extends \Slim\Middleware
 
 			$hash = hash_hmac('sha256', $content, $this->hashes[$publicHash]);
 
-			// If our has doesn't match the submitted hash, the request is bad
+			// If our hash doesn't match the submitted hash, the request is bad
 			if ($hash !== $contentHash) {
 				$this->app->response()->setStatus(400);
 				return;
@@ -46,5 +46,18 @@ class HmacAuth extends \Slim\Middleware
 		}
 
 		$this->next->call();
+	}
+
+	private function checkRoute($uri)
+	{
+		foreach ($this->allowedRoutes as $route) {
+			$pattern = '|^' . str_replace('*', '.+', $route) . '$|';
+
+			if (preg_match($pattern, $uri)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

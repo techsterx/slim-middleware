@@ -17,20 +17,20 @@ class HmacAuth extends \Slim\Middleware
 	{
 		$req = $this->app->request();
 
-		if(count($this->allowedRoutes) && !in_array($req->getMethod().$res->getResourceUri(), $this->allowedRoutes)) {
+		if (!count($this->allowedRoutes) || !in_array($req->getMethod().$res->getResourceUri(), $this->allowedRoutes)) {
 			$publicHash = $req->headers('X-Public');
 			$contentHash = $req->headers('X-Hash');
 
 			// If we didn't receive the X-Public or X-Hash headers, the request is 
 			// malformed
-			if(!$publicHash || !$contentHash) {
+			if (!$publicHash || !$contentHash) {
 				$this->app->response()->setStatus(400);
 				return;
 			}
 
 			// If the public hash doesn't exist, access is forbidden
 			if (!array_key_exists($publicHash, $this->hashes)) {
-				$this->app->response()->setStatus(403);
+				$this->app->response()->setStatus(400);
 				return;
 			}
 

@@ -13,12 +13,17 @@ class VerifyOrigin extends \Slim\Middleware
 
 	public function call()
 	{
-		$origin = $this->app->request()->headers('Origin');
+		$origin = $this->app->request()->headers->get('Origin');
 
 		if (count($this->allowedOrigins) && !in_array($origin, $this->allowedOrigins))
 		{
 			$this->app->response()->setStatus(403);
 			return;
+		}
+
+		// Set the allow origin header
+		if (strlen($origin) > 0) {
+			$this->app->response()->headers->set('Access-Control-Allow-Origin', $origin);
 		}
 
 		$this->next->call();

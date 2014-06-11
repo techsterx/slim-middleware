@@ -98,7 +98,7 @@ class HmacAuth extends \Slim\Middleware
 			}
 
 			// If our hash doesn't match the signature, the request is bad
-			if (!$this->isValid()) {
+			if (!$this->isValid($algorithm, $clientDate)) {
 				$this->app->response()->setStatus(400);
 				return;
 			}

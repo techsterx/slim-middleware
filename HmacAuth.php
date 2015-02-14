@@ -32,7 +32,7 @@ class HmacAuth extends \Slim\Middleware
 			// AccessKeyId=MyAccessKey,
 			// Algorithm=HmacSHA1|HmacSHA256,
 			// Signature=Base64(Algorithm(ValueOfDateHeader, SigningKey))
-			$authHeader = $req->headers->get($this->options->headers['authorization']);
+			$authHeader = $req->headers->get($this->options['headers']['authorization']);
 
 			// If we didn't recieve the authorization header, the request is 
 			// malformed
@@ -41,7 +41,7 @@ class HmacAuth extends \Slim\Middleware
 				return;
 			}
 
-			$dateHeader = $req->headers->get($this->options->headers['date']) ?: $req->headers->get('Date');
+			$dateHeader = $req->headers->get($this->options['headers']['date']) ?: $req->headers->get('Date');
 
 			$clientDate = $this->getDateTime($dateHeader);
 			$serverDate = $this->getDateTime();
@@ -52,7 +52,7 @@ class HmacAuth extends \Slim\Middleware
 			}
 
 			// Split the header into the appropriate parts
-			$authHeaderParts = explode($authHeader, ',', 3);
+			$authHeaderParts = explode(',', $authHeader, 3);
 
 			// If we didn't get all the parts, the request is malformed
 			if (count($authHeaderParts) < 3) {
@@ -61,7 +61,7 @@ class HmacAuth extends \Slim\Middleware
 			}
 
 			foreach ($authHeaderParts as $part) {
-				list($key, $value) = explode('=', $part);
+				list($key, $value) = explode('=', $part, 2);
 
 				$key = strtolower(trim($key));
 
@@ -98,7 +98,7 @@ class HmacAuth extends \Slim\Middleware
 			}
 
 			// If our hash doesn't match the signature, the request is bad
-			if (!$this->isValid($algorithm, $clientDate)) {
+			if (!$this->isValid($algorithm, $clientDate->format($this->dateFormat), $accessKeyId, $signature)) {
 				$this->app->response()->setStatus(400);
 				return;
 			}
@@ -115,7 +115,7 @@ class HmacAuth extends \Slim\Middleware
 	 *
 	 * @return bool
 	 */
-	private function isValid($algorithm, \DateTime $clientDate)
+	private function isValid($algorithm, $clientDate, $accessKeyId, $signature)
 	{
 		$hash = base64_encode(hash_hmac($algorithm, $clientDate, $this->hashes[$accessKeyId]));
 

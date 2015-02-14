@@ -15,7 +15,7 @@ class HmacAuth extends \Slim\Middleware
 
 		$this->options = array_merge(array(
 			'allowedRoutes' => array(),
-			'header' => array(
+			'headers' => array(
 				'authorization' => 'X-HmacAuth-Authorization',
 				'date' => 'X-HmacAuth-Date',
 			),

@@ -152,7 +152,7 @@ class HmacAuth extends \Slim\Middleware
 
 		$minutes = (($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i) * ($diff->invert ? -1 : 1);
 
-		return (bool) (minutes >= 0 && $minutes <= 5);
+		return (bool) ($minutes >= 0 && $minutes <= 5);
 	}
 
 	/**
